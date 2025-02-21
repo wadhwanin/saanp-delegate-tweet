@@ -10,6 +10,8 @@ steps:
       - '-t'
       - 'asia-south1-docker.pkg.dev/${_GCP_PROJECT}/india/saanp-delegate-tweet:$COMMIT_SHA'
       - '.'
+    options:
+      logging: CLOUD_LOGGING_ONLY
   # Push the container image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
     id: Push
