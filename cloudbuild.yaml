@@ -34,4 +34,4 @@ steps:
 images:
   - 'asia-south1-docker.pkg.dev/${_GCP_PROJECT}/india/saanp-delegate-tweet:$COMMIT_SHA'
 options:
-  logging: CLOUD_LOGGING_AUTOMATIC
+  logging: CLOUD_LOGGING_ONLY
