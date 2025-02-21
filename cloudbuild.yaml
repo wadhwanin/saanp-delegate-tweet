@@ -1,0 +1,35 @@
+substitutions:
+  _GCP_PROJECT: saanp-delegate-tweet # Replace with your default project ID
+
+steps:
+  # Build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    id: Build
+    args:
+      - 'build'
+      - '-t'
+      - 'asia-south1-docker.pkg.dev/${_GCP_PROJECT}/india/saanp-delegate-tweet:$COMMIT_SHA'
+      - '.'
+  # Push the container image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    id: Push
+    args:
+      - 'push'
+      - 'asia-south1-docker.pkg.dev/${_GCP_PROJECT}/india/saanp-delegate-tweet:$COMMIT_SHA'
+  # Deploy container image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    id: Deploy
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'saanp-delegate-service'
+      - '--image'
+      - 'asia-south1-docker.pkg.dev/${_GCP_PROJECT}/india/saanp-delegate-tweet:$COMMIT_SHA'
+      - '--region'
+      - 'asia-south1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+images:
+  - 'asia-south1-docker.pkg.dev/${_GCP_PROJECT}/india/saanp-delegate-tweet:$COMMIT_SHA'
