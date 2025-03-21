@@ -2,8 +2,8 @@ import requests
 import os
 import json
 
-from saanp.random_user import get_random_username
-from saanp.user_json import get_user_from_json
+from src.tweetify.random_user import get_random_username
+from src.tweetify.user_json import get_user_from_json
 
 # Replace with your actual Bearer Token (environment variables are best practice)
 bearer_token = os.environ.get("BEARER_TOKEN")
@@ -33,7 +33,8 @@ def get_user_tweets(username, max_results=10, filename="tweets.json"):  # Added 
             "max_results": max_results,  # Use the max_results parameter
             "tweet.fields": "text"  # Add other fields as needed
         }
-        tweets_response = requests.get(tweets_url, headers=headers, params=tweets_params)
+        # IMPORTANT: Added verify=False here
+        tweets_response = requests.get(tweets_url, headers=headers, params=tweets_params, verify=False)
         tweets_response.raise_for_status()
         tweets_data = tweets_response.json()
         with open(filename, 'w', encoding='utf-8') as json_file:
@@ -52,10 +53,10 @@ def get_user_tweets(username, max_results=10, filename="tweets.json"):  # Added 
 
 if __name__ == "__main__":
     random_username = get_random_username()
-print(f"Selected username: {random_username}")
+    print(f"Selected username: {random_username}")
 
-tweets = get_user_tweets(random_username, max_results=5, filename=f"{random_username}_tweets.json")
-if tweets:
-    print(json.dumps(tweets, indent=4))
-else:
-    print("No tweets found or error occurred.")
+    tweets = get_user_tweets(random_username, max_results=5, filename=f"{random_username}_tweets.json")
+    if tweets:
+        print(json.dumps(tweets, indent=4))
+    else:
+        print("No tweets found or error occurred.")
