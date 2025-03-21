@@ -1,15 +1,43 @@
+import http.server
 import os
+import socketserver
+import urllib.parse
 
-from flask import Flask
+PORT = int(os.environ.get("PORT", 8080))
 
-app = Flask(__name__)
+class SimpleHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
+    last_code = None
 
-app_version = "0.0.0"
+    def do_GET(self):
+        # Check if this is the callback URL
+        if self.path.startswith('/?'):
 
-@app.route("/")
-def hello_world():
-    return f"Hello! This is version {app_version} of my application."
+            url_parts = urllib.parse.urlparse(self.path)
+            query_params = urllib.parse.parse_qs(url_parts.query)
+            code = query_params.get('code')
+
+            if code:
+                SimpleHTTPRequestHandler.last_code= code[0] # store for later use
+                self.send_response(200)
+                self.end_headers()
+                self.wfile.write(b"<html><body><h1>Authorization successful!</h1><p>You can now close this window.</p></body></html>")
+                return
+
+        # Standard HTTP file handling
+        f = self.send_head()
+        if f:
+            try:
+                self.copyfile(f, self.wfile)
+            finally:
+                f.close()
+
+
+def run_server():
+    """Starts the HTTP server."""
+    httpd = socketserver.TCPServer(("", PORT), SimpleHTTPRequestHandler)
+    print(f"Serving on port {PORT}")
+    httpd.serve_forever() # This will keep running. Use a different method if you want to control termination
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
+    run_server()
