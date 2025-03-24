@@ -1,7 +1,7 @@
 import random
 
-usernames = ["sadhguruJV", "ishafoundation", "mishra_satish", "narendramodi"]  # Array of usernames
-
+usernames = ["sadhguruJV", "ishafoundation", "narendramodi"]  # Array of usernames
+# "mishra_satish",
 
 def get_random_username():
     """Selects a random username from a list of usernames."""
