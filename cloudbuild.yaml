@@ -35,3 +35,29 @@ images:
   - 'asia-south1-docker.pkg.dev/${_GCP_PROJECT}/india/saanp-delegate-tweet:$COMMIT_SHA'
 options:
   logging: CLOUD_LOGGING_ONLY
+
+spec:
+  template:
+    spec:
+      containers:
+        - env:
+            - name: BEARER_TOKEN
+              value: AAAAAAAAAAAAAAAAAAAAACVSzQEAAAAAfqYXfYTZ8krFu%2FUHN6XWA6Dovzc%3DtAwSl2lAeAjDw1kb9EeQnNMEzHRXtNFTCn8bMrtLmdC7KyR4vM
+            - name: CLIENT_ID
+              value: dXpTdWh6Qk1HUy1IemNhaDJjNG86MTpjaQ
+            - name: CONSUMER_KEY
+              value: ZKLupA78pGm52KVIrHltYZIn3
+            - name: CONSUMER_SECRET
+              value: FdynpfaVltJ9WpwYNYXavw80NZsvWfoiPo1VeV2yzxUiq5Hg4P
+            - name: ACCESS_TOKEN
+              value: 97048181-FKm0zgURZIkpNyZOjXA290ys7phssiHzdBR9p06af
+            - name: X_USERNAME
+              value: likeToHearMore
+            - name: ACCESS_TOKEN_SECRET
+              value: GjCj7ckj91xY3eWpXrBK12iL74B3wwR6CbfU9IIQXUCtv
+            - name: CLIENT_SECRET
+              value: your_client_secret
+            - name: REDIRECT_URI
+              value: http://localhost:8080/callback
+            - name: FLASK_SECRET_KEY
+              value: your_flask_secret_key
