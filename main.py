@@ -12,12 +12,13 @@ load_dotenv()
 app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "your_default_secret_key")  # Set a secret key for sessions
 bearer_token = os.environ.get("BEARER_TOKEN")
+client_id = os.environ.get("CLIENT_ID")
 app_version = "0.0.0"
 
 
 @app.route("/")
 def hello_world():
-    return f"Hello! This is version {app_version} of my application. Bearer token {bearer_token}"
+    return f"Hello! This is version {app_version} of my application. Bearer token {bearer_token}. Client id: {client_id}"
 
 
 @app.route("/authorize")
